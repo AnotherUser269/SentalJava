@@ -1,12 +1,16 @@
 package classes.bouquet;
 import classes.flowers.Flower;
 
+import java.util.ArrayList;
+
 public class Bouquet {
     private int currentPrice = 0;
     private int currentAmount = 0;
+    private final ArrayList<Flower> addedFlowers = new ArrayList<>();
 
     public void addFlower(Flower flower) {
         currentAmount++;
+        addedFlowers.add(flower);
         currentPrice += flower.getPrice();
     }
 
@@ -19,6 +23,12 @@ public class Bouquet {
     }
 
     public String toString() {
-        return String.format("Bouquet contains of %d flowers. Price: %d rub.", getAmount(), getPrice());
+        return String.format("Bouquet contains %d flowers. Bouquet's price is: %d rub.", getAmount(), getPrice());
+    }
+
+    public void printContent() {
+        for(Flower flower: addedFlowers) {
+            System.out.println(flower);
+        }
     }
 }
