@@ -1,3 +1,5 @@
+package org.example;
+
 public class TaskThreeOne {
     public static void main(String[] args) {
         int finalNum = (new java.util.Random()).nextInt(900) + 100;
