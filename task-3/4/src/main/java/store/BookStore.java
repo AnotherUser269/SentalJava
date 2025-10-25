@@ -83,7 +83,7 @@ public class BookStore {
         return deleteRequest;
     }
 
-    public Optional<Order> closeOrder(int id) {
+    public Optional<Order> closeOrder(int id, OrderStatus status) {
         Optional<Order> deleteOrder = orderManager.removeOrder(id);
 
         if(deleteOrder.isPresent()) {
@@ -92,7 +92,7 @@ public class BookStore {
                 orderedBook.get().setStatus(BookStatus.IN_ORDER);
             }
 
-            deleteOrder.get().setStatus(OrderStatus.DISMISSED);
+            deleteOrder.get().setStatus(status);
         }
 
         return deleteOrder;

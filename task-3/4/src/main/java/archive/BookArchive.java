@@ -17,10 +17,10 @@ public class BookArchive implements Archive<Book> {
 
     public Optional<Book> get(String bookTitle) {
         for(Map.Entry<Integer, Book> i: books.entrySet()) {
-            if(Objects.equals(i.getValue().getTitle(), bookTitle)){
-                if(i.getValue().getStatus() == BookStatus.IN_ORDER) {
-                    return Optional.ofNullable(i.getValue());
-                }
+            Book currentBook = i.getValue();
+
+            if(Objects.equals(currentBook.getTitle(), bookTitle) && (currentBook.getStatus() == BookStatus.IN_ORDER)){
+                return Optional.ofNullable(i.getValue());
             }
         }
         return Optional.empty();

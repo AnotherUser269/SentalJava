@@ -1,14 +1,10 @@
 package org.example;
 
-import archive.BookArchive;
-import archive.OrderArchive;
-import archive.RequestArchive;
-import core.Book;
-import core.Order;
-import core.Request;
-import manager.BookManager;
-import manager.OrderManager;
-import manager.RequestManager;
+import archive.*;
+import core.*;
+import manager.*;
+import enums.OrderStatus;
+
 import store.BookStore;
 
 import java.util.Optional;
@@ -58,8 +54,8 @@ public class TaskThreeFour {
         --                       Отменим заказы                            --
         ---------------------------------------------------------------------
          */
-        Optional<Order> disOrder1 = store.closeOrder(newOrder1.getId());
-        Optional<Order> disOrder2 = store.closeOrder(newOrder2.getId());
+        Optional<Order> disOrder1 = store.closeOrder(newOrder1.getId(), OrderStatus.DISMISSED);
+        Optional<Order> disOrder2 = store.closeOrder(newOrder2.getId(), OrderStatus.SUCCESS);
         /*
         ---------------------------------------------------------------------
         --                        Удаляем по id                            --
