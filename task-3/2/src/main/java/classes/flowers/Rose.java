@@ -1,16 +1,18 @@
 package classes.flowers;
 
+import classes.enums.*;
+
 public class Rose extends Flower {
     final private int PRICE = 2_680;
-    final private String TYPE = "Rare";
-    final private String COLOR = "Red";
+    final private types TYPE = types.NOT_RARE;
+    final private colors COLOR = colors.RED;
 
     @Override
     public int getPrice() { return PRICE; }
 
     @Override
-    public String getType() { return TYPE; }
+    public types getType() { return TYPE; }
 
     @Override
-    public String getColor() { return COLOR; }
+    public colors getColor() { return COLOR; }
 }

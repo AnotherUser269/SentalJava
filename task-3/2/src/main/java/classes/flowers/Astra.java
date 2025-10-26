@@ -1,16 +1,18 @@
 package classes.flowers;
 
+import classes.enums.*;
+
 public class Astra extends Flower {
     final private int PRICE = 1_500;
-    final private String TYPE = "Moderate";
-    final private String COLOR = "Violet";
+    final private types TYPE = types.MODERATE;
+    final private colors COLOR = colors.VIOLET;
 
     @Override
     public int getPrice() { return PRICE; }
 
     @Override
-    public String getType() { return TYPE; }
+    public types getType() { return TYPE; }
 
     @Override
-    public String getColor() { return COLOR; }
+    public colors getColor() { return COLOR; }
 }

@@ -2,11 +2,12 @@ package classes.bouquet;
 import classes.flowers.Flower;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Bouquet {
     private int currentPrice = 0;
     private int currentAmount = 0;
-    private final ArrayList<Flower> addedFlowers = new ArrayList<>();
+    private final List<Flower> addedFlowers = new ArrayList<>();
 
     public void addFlower(Flower flower) {
         currentAmount++;
