@@ -20,7 +20,7 @@ public class BookCatalog implements Catalog<Book> {
             Book currentBook = i.getValue();
 
             if (Objects.equals(currentBook.getTitle(), bookTitle) &&
-                    (currentBook.getStatus() == BookStatus.IN_ORDER)) {
+                    (currentBook.getStatus() == BookStatus.InOrder)) {
 
                 return Optional.ofNullable(i.getValue());
             }

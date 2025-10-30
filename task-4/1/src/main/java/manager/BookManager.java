@@ -68,7 +68,7 @@ public class BookManager {
 
     /**
      * Removes a book by its identifier.
-     * Delegates removal to the catalog and, if removed, sets the book status to {@link BookStatus#NOT_IN_ORDER}.
+     * Delegates removal to the catalog and, if removed, sets the book status to {@link BookStatus#NotInOrder}.
      *
      * @param id identifier of the book to remove
      * @return {@link Optional} containing the removed {@link Book} if it existed, or empty otherwise
@@ -77,7 +77,7 @@ public class BookManager {
         Optional<Book> removedBook = bookCatalog.remove(id);
 
         if (removedBook.isPresent()) {
-            removedBook.get().setStatus(BookStatus.NOT_IN_ORDER);
+            removedBook.get().setStatus(BookStatus.NotInOrder);
         }
 
         return removedBook;

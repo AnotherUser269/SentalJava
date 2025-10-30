@@ -7,5 +7,7 @@ public interface Archive<T> {
 
     Optional<T> remove(int id);
     Optional<T> find(int id);
+
     // TODO: void sortBy();
+    // TODO: void printAll();
 }

@@ -3,7 +3,7 @@ package core;
 import enums.RequestStatus;
 
 public class Request {
-    private RequestStatus status = RequestStatus.OPENED;
+    private RequestStatus status = RequestStatus.Opened;
     private final int id;
     private final String bookTitle;
 

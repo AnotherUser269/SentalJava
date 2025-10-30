@@ -33,9 +33,14 @@ public class OrderManager {
      * @param id book identifier associated with the new order
      * @return the created {@link Order}
     */
-    public Order createOrder(int id) {
+    public Order createOrder(int id, long startTime) {
         int orderId = generateId();
-        Order newOrder = new Order(orderId, id);
+
+        if(startTime < 0) {
+            startTime = System.currentTimeMillis() / 1000L;
+        }
+
+        Order newOrder = new Order(orderId, id, startTime);
         orderCatalog.put(newOrder);
         orderArchive.put(newOrder);
 

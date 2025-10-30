@@ -18,7 +18,7 @@ public class RequestCatalog implements Catalog<Request> {
     public Optional<Request> get(String bookTitle) {
         for (Map.Entry<Integer, Request> i : requests.entrySet()) {
             if (Objects.equals(i.getValue().getBookTitle(), bookTitle) &&
-                    i.getValue().getStatus() == RequestStatus.OPENED) {
+                    i.getValue().getStatus() == RequestStatus.Opened) {
 
                 return Optional.ofNullable(i.getValue());
             }

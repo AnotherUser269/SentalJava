@@ -42,7 +42,7 @@ public class BookStore {
     /**
      * Creates a new order for a book by title.
      * - Searches for the book via {@link BookManager}.
-     * - If the book is found, sets its status to {@link BookStatus#NOT_IN_ORDER}
+     * - If the book is found, sets its status to {@link BookStatus#NotInOrder}
      * and creates an order via {@link OrderManager}.
      * - If not found, throws an exception.
      *
@@ -50,12 +50,16 @@ public class BookStore {
      * @return created {@link Order}
      * @throws Exception if no book with the given title is found
      */
-    public Order createOrder(String bookTitle) throws Exception {
+    public Order createOrder(String bookTitle, long startTime) throws Exception {
         Optional<Book> bookToOrder = bookManager.findBookByTitle(bookTitle);
 
         if (bookToOrder.isPresent()) {
-            bookToOrder.get().setStatus(BookStatus.NOT_IN_ORDER);
-            Order order = orderManager.createOrder(bookToOrder.get().getId());
+            bookToOrder.get().setStatus(BookStatus.NotInOrder);
+            if(startTime < 0) {
+                startTime = System.currentTimeMillis() / 1000L;
+            }
+
+            Order order = orderManager.createOrder(bookToOrder.get().getId(), startTime);
 
             return order;
         } else {
@@ -77,7 +81,7 @@ public class BookStore {
      * Adds a new book to the store.
      * Delegates creation to {@link BookManager#addBook(String bookTitle, String author, String description,
      * long timestamp, double price)}.
-     * If there is an open {@link Request} with the same title, marks it as {@link RequestStatus#CLOSED}
+     * If there is an open {@link Request} with the same title, marks it as {@link RequestStatus#Closed}
      * and removes it from the RequestManager.
      *
      * @param bookTitle title of the new book
@@ -92,7 +96,7 @@ public class BookStore {
         Optional<Request> request = requestManager.findRequestByTitle(bookTitle);
 
         if (request.isPresent()) {
-            request.get().setStatus(RequestStatus.CLOSED);
+            request.get().setStatus(RequestStatus.Closed);
             requestManager.removeRequest(request.get().getId());
         }
 
@@ -102,7 +106,7 @@ public class BookStore {
     /**
      * Removes a book by its identifier.
      * Delegates removal to {@link BookManager#removeBook(int)}.
-     * If a book was removed, sets its status to {@link BookStatus#NOT_IN_ORDER}.
+     * If a book was removed, sets its status to {@link BookStatus#NotInOrder}.
      *
      * @param id identifier of the book to remove
      * @return {@link Optional} containing the removed {@link Book} if found, or empty otherwise
@@ -111,7 +115,7 @@ public class BookStore {
         Optional<Book> deletedBook = bookManager.removeBook(id);
 
         if (deletedBook.isPresent()) {
-            deletedBook.get().setStatus(BookStatus.NOT_IN_ORDER);
+            deletedBook.get().setStatus(BookStatus.NotInOrder);
         }
 
         return deletedBook;
@@ -120,7 +124,7 @@ public class BookStore {
     /**
      * Cancels (removes) a request by its identifier.
      * Delegates removal to {@link RequestManager#removeRequest(int)}.
-     * If the request existed, marks it as {@link RequestStatus#CLOSED}.
+     * If the request existed, marks it as {@link RequestStatus#Closed}.
      *
      * @param id identifier of the request to cancel
      * @return {@link Optional} containing the removed {@link Request} if found, or empty otherwise
@@ -129,7 +133,7 @@ public class BookStore {
         Optional<Request> deleteRequest = requestManager.removeRequest(id);
 
         if (deleteRequest.isPresent()) {
-            deleteRequest.get().setStatus(RequestStatus.CLOSED);
+            deleteRequest.get().setStatus(RequestStatus.Closed);
         }
 
         return deleteRequest;
@@ -139,7 +143,7 @@ public class BookStore {
      * Closes (removes) an order by its identifier and sets the provided status.
      * Delegates removal to {@link OrderManager#removeOrder(int, OrderStatus status)}. If the order is found, attempts
      * to find the related book by {@link core.Order#getBookId()} and, if found, sets the book status
-     * to {@link BookStatus#IN_ORDER}. Sets the order status to the provided {@link OrderStatus}.
+     * to {@link BookStatus#InOrder}. Sets the order status to the provided {@link OrderStatus}.
      *
      * @param id     identifier of the order to close
      * @param status status to assign to the order upon closing
@@ -151,7 +155,7 @@ public class BookStore {
         if (deleteOrder.isPresent()) {
             Optional<Book> orderedBook = bookManager.findBook(deleteOrder.get().getBookId());
             if (orderedBook.isPresent()) {
-                orderedBook.get().setStatus(BookStatus.IN_ORDER);
+                orderedBook.get().setStatus(BookStatus.InOrder);
             }
         }
 

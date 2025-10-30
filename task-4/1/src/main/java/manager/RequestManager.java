@@ -54,7 +54,7 @@ public class RequestManager {
 
     /**
      * Removes a request by its identifier.
-     * Delegates removal to the catalog and, if removed, sets the request status to {@link RequestStatus#CLOSED}.
+     * Delegates removal to the catalog and, if removed, sets the request status to {@link RequestStatus#Closed}.
      *
      * @param id identifier of the request to remove
      * @return {@link Optional} containing the removed {@link Request} if it existed, or empty otherwise
@@ -63,7 +63,7 @@ public class RequestManager {
         Optional<Request> removedRequest = requestCatalog.remove(id);
 
         if (removedRequest.isPresent()) {
-            removedRequest.get().setStatus(RequestStatus.CLOSED);
+            removedRequest.get().setStatus(RequestStatus.Closed);
         }
 
         return removedRequest;

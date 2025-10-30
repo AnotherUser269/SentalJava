@@ -3,7 +3,7 @@ package core;
 import enums.BookStatus;
 
 public class Book {
-    private BookStatus status = BookStatus.IN_ORDER;
+    private BookStatus status = BookStatus.InOrder;
     private final String title;
     private final String author;
     private final String description;
@@ -11,7 +11,13 @@ public class Book {
     private final double price;
     private final int id;
 
-    public Book(int id, String title, String author, String description, long timeStamp, double price) {
+    public Book(int id,
+                String title,
+                String author,
+                String description,
+                long timeStamp,
+                double price)
+    {
         this.id = id;
         this.title = title;
         this.author = author;
