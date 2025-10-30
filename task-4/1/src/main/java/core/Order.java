@@ -27,4 +27,13 @@ public class Order {
     public int getBookId() {
         return bookId;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", bookId=" + bookId +
+                ", status=" + status +
+                '}';
+    }
 }

@@ -37,15 +37,26 @@ public class BookManager {
     }
 
     /**
-     * Adds a new book with the given title.
-     * Generates a new unique id, creates a Book, stores it in the catalog and archive.
-     *
-     * @param title book title
-     * @return the created {@link Book}
-    */
-    public Book addBook(String title) {
+     Creates a new {@link Book}, assigns it a generated id, sets the timestamp
+     (uses current time when a negative {@code timeStamp} is supplied), and
+     stores the book in both the catalog and the archive.
+
+     @param title the book title;
+     @param author the book author;
+     @param description short description of the book;
+     @param timeStamp creation timestamp in seconds since the epoch;
+     if negative, the current timestamp will be used
+
+     @return the newly created {@link Book}
+     */
+    public Book addBook(String title, String author, String description, long timeStamp) {
         int bookId = generateId();
-        Book newBook = new Book(bookId, title);
+
+        if(timeStamp < 0) {
+            timeStamp = getCurrentTimeStamp();
+        }
+
+        Book newBook = new Book(bookId, title, author, description, timeStamp);
         bookCatalog.put(newBook);
         bookArchive.put(newBook);
 
@@ -83,5 +94,9 @@ public class BookManager {
         }
 
         return startId;
+    }
+
+    private long getCurrentTimeStamp() {
+        return System.currentTimeMillis() / 1000L;
     }
 }

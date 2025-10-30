@@ -27,4 +27,13 @@ public class Request {
     public String getBookTitle() {
         return bookTitle;
     }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "id=" + id +
+                ", bookTitle='" + bookTitle + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

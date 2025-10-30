@@ -81,8 +81,8 @@ public class BookStore {
      * @param bookTitle title of the new book
      * @return created {@link Book}
     */
-    public Book addBook(String bookTitle) {
-        Book newBook = bookManager.addBook(bookTitle);
+    public Book addBook(String bookTitle, String author, String description, long timestamp) {
+        Book newBook = bookManager.addBook(bookTitle, author, description, timestamp);
         Optional<Request> request = requestManager.findRequestByTitle(bookTitle);
 
         if(request.isPresent()) {
@@ -140,15 +140,13 @@ public class BookStore {
      * @return {@link Optional} containing the removed {@link Order} if found, or empty otherwise
     */
     public Optional<Order> closeOrder(int id, OrderStatus status) {
-        Optional<Order> deleteOrder = orderManager.removeOrder(id);
+        Optional<Order> deleteOrder = orderManager.removeOrder(id, status);
 
         if(deleteOrder.isPresent()) {
             Optional<Book> orderedBook = bookManager.findBook(deleteOrder.get().getBookId());
             if(orderedBook.isPresent()) {
                 orderedBook.get().setStatus(BookStatus.IN_ORDER);
             }
-
-            deleteOrder.get().setStatus(status);
         }
 
         return deleteOrder;
