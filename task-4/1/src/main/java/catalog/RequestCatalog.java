@@ -16,11 +16,11 @@ public class RequestCatalog implements Catalog<Request> {
     }
 
     public Optional<Request> get(String bookTitle) {
-        for(Map.Entry<Integer, Request> i: requests.entrySet()) {
-            if(Objects.equals(i.getValue().getBookTitle(), bookTitle)){
-                if(i.getValue().getStatus() == RequestStatus.OPENED) {
-                    return Optional.ofNullable(i.getValue());
-                }
+        for (Map.Entry<Integer, Request> i : requests.entrySet()) {
+            if (Objects.equals(i.getValue().getBookTitle(), bookTitle) &&
+                    i.getValue().getStatus() == RequestStatus.OPENED) {
+
+                return Optional.ofNullable(i.getValue());
             }
         }
         return Optional.empty();

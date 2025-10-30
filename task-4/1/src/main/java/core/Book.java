@@ -8,14 +8,16 @@ public class Book {
     private final String author;
     private final String description;
     private final long timeStamp;
+    private final double price;
     private final int id;
 
-    public Book(int id, String title, String author, String description, long timeStamp) {
+    public Book(int id, String title, String author, String description, long timeStamp, double price) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.description = description;
         this.timeStamp = timeStamp;
+        this.price = price;
     }
 
     public BookStatus getStatus() {
@@ -46,6 +48,10 @@ public class Book {
         return timeStamp;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -54,6 +60,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", description='" + description + '\'' +
                 ", timeStamp=" + timeStamp +
+                ", price=" + price +
                 ", status=" + status +
                 '}';
     }

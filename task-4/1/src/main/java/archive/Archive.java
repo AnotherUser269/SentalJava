@@ -1,7 +1,5 @@
 package archive;
 
-import core.Book;
-
 import java.util.Optional;
 
 public interface Archive<T> {
@@ -9,4 +7,5 @@ public interface Archive<T> {
 
     Optional<T> remove(int id);
     Optional<T> find(int id);
+    // TODO: void sortBy();
 }

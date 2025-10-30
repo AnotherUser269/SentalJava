@@ -26,12 +26,13 @@ public class BookStore {
         return name;
     }
 
-    /** Creates a new request for a book by its title.
-     *  Delegates the creation of a Request to the corresponding RequestManager.
-
+    /**
+     * Creates a new request for a book by its title.
+     * Delegates the creation of a Request to the corresponding RequestManager.
+     *
      * @param bookTitle is the title of the book for which the application is being created
      * @return created {@link Request} object
-    */
+     */
     public Request createRequest(String bookTitle) {
         Request request = requestManager.createRequest(bookTitle);
 
@@ -42,17 +43,17 @@ public class BookStore {
      * Creates a new order for a book by title.
      * - Searches for the book via {@link BookManager}.
      * - If the book is found, sets its status to {@link BookStatus#NOT_IN_ORDER}
-     *   and creates an order via {@link OrderManager}.
+     * and creates an order via {@link OrderManager}.
      * - If not found, throws an exception.
      *
      * @param bookTitle title of the book to order
      * @return created {@link Order}
      * @throws Exception if no book with the given title is found
-    */
+     */
     public Order createOrder(String bookTitle) throws Exception {
         Optional<Book> bookToOrder = bookManager.findBookByTitle(bookTitle);
 
-        if(bookToOrder.isPresent()) {
+        if (bookToOrder.isPresent()) {
             bookToOrder.get().setStatus(BookStatus.NOT_IN_ORDER);
             Order order = orderManager.createOrder(bookToOrder.get().getId());
 
@@ -67,25 +68,30 @@ public class BookStore {
      *
      * @param bookTitle title of the book to find
      * @return {@link Optional} containing the {@link Book} if found, or empty otherwise
-    */
+     */
     public Optional<Book> findBook(String bookTitle) {
         return bookManager.findBookByTitle(bookTitle);
     }
 
     /**
      * Adds a new book to the store.
-     * Delegates creation to {@link BookManager#addBook(String)}.
+     * Delegates creation to {@link BookManager#addBook(String bookTitle, String author, String description,
+     * long timestamp, double price)}.
      * If there is an open {@link Request} with the same title, marks it as {@link RequestStatus#CLOSED}
      * and removes it from the RequestManager.
      *
      * @param bookTitle title of the new book
      * @return created {@link Book}
-    */
-    public Book addBook(String bookTitle, String author, String description, long timestamp) {
-        Book newBook = bookManager.addBook(bookTitle, author, description, timestamp);
+     */
+    public Book addBook(String bookTitle,
+                        String author,
+                        String description,
+                        long timestamp,
+                        double price) {
+        Book newBook = bookManager.addBook(bookTitle, author, description, timestamp, price);
         Optional<Request> request = requestManager.findRequestByTitle(bookTitle);
 
-        if(request.isPresent()) {
+        if (request.isPresent()) {
             request.get().setStatus(RequestStatus.CLOSED);
             requestManager.removeRequest(request.get().getId());
         }
@@ -100,11 +106,11 @@ public class BookStore {
      *
      * @param id identifier of the book to remove
      * @return {@link Optional} containing the removed {@link Book} if found, or empty otherwise
-    */
+     */
     public Optional<Book> removeBook(int id) {
         Optional<Book> deletedBook = bookManager.removeBook(id);
 
-        if(deletedBook.isPresent()) {
+        if (deletedBook.isPresent()) {
             deletedBook.get().setStatus(BookStatus.NOT_IN_ORDER);
         }
 
@@ -118,11 +124,11 @@ public class BookStore {
      *
      * @param id identifier of the request to cancel
      * @return {@link Optional} containing the removed {@link Request} if found, or empty otherwise
-    */
+     */
     public Optional<Request> cancelRequest(int id) {
         Optional<Request> deleteRequest = requestManager.removeRequest(id);
 
-        if(deleteRequest.isPresent()) {
+        if (deleteRequest.isPresent()) {
             deleteRequest.get().setStatus(RequestStatus.CLOSED);
         }
 
@@ -131,20 +137,20 @@ public class BookStore {
 
     /**
      * Closes (removes) an order by its identifier and sets the provided status.
-     * Delegates removal to {@link OrderManager#removeOrder(int)}. If the order is found, attempts
+     * Delegates removal to {@link OrderManager#removeOrder(int, OrderStatus status)}. If the order is found, attempts
      * to find the related book by {@link core.Order#getBookId()} and, if found, sets the book status
      * to {@link BookStatus#IN_ORDER}. Sets the order status to the provided {@link OrderStatus}.
      *
-     * @param id identifier of the order to close
+     * @param id     identifier of the order to close
      * @param status status to assign to the order upon closing
      * @return {@link Optional} containing the removed {@link Order} if found, or empty otherwise
-    */
+     */
     public Optional<Order> closeOrder(int id, OrderStatus status) {
         Optional<Order> deleteOrder = orderManager.removeOrder(id, status);
 
-        if(deleteOrder.isPresent()) {
+        if (deleteOrder.isPresent()) {
             Optional<Book> orderedBook = bookManager.findBook(deleteOrder.get().getBookId());
-            if(orderedBook.isPresent()) {
+            if (orderedBook.isPresent()) {
                 orderedBook.get().setStatus(BookStatus.IN_ORDER);
             }
         }

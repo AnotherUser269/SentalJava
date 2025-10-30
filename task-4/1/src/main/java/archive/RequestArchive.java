@@ -3,6 +3,7 @@ package archive;
 import java.util.ArrayList;
 import java.util.AbstractMap;
 import java.util.Optional;
+
 import core.Request;
 
 public class RequestArchive implements Archive<Request> {
@@ -16,8 +17,8 @@ public class RequestArchive implements Archive<Request> {
 
     @Override
     public Optional<Request> remove(int id) {
-        for(AbstractMap.SimpleEntry<Integer, Request> entry: archive) {
-            if(entry.getKey().equals(id)) {
+        for (AbstractMap.SimpleEntry<Integer, Request> entry : archive) {
+            if (entry.getKey().equals(id)) {
                 archive.remove(entry);
 
                 return Optional.of(entry.getValue());
@@ -29,8 +30,8 @@ public class RequestArchive implements Archive<Request> {
 
     @Override
     public Optional<Request> find(int id) {
-        for(AbstractMap.SimpleEntry<Integer, Request> entry: archive) {
-            if(entry.getKey().equals(id)) {
+        for (AbstractMap.SimpleEntry<Integer, Request> entry : archive) {
+            if (entry.getKey().equals(id)) {
                 return Optional.of(entry.getValue());
             }
         }

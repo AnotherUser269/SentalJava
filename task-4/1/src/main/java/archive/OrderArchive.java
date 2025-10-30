@@ -3,6 +3,7 @@ package archive;
 import java.util.ArrayList;
 import java.util.AbstractMap;
 import java.util.Optional;
+
 import core.Order;
 
 public class OrderArchive implements Archive<Order> {
@@ -16,8 +17,8 @@ public class OrderArchive implements Archive<Order> {
 
     @Override
     public Optional<Order> remove(int id) {
-        for(AbstractMap.SimpleEntry<Integer, Order> entry: archive) {
-            if(entry.getKey().equals(id)) {
+        for (AbstractMap.SimpleEntry<Integer, Order> entry : archive) {
+            if (entry.getKey().equals(id)) {
                 archive.remove(entry);
 
                 return Optional.of(entry.getValue());
@@ -29,8 +30,8 @@ public class OrderArchive implements Archive<Order> {
 
     @Override
     public Optional<Order> find(int id) {
-        for(AbstractMap.SimpleEntry<Integer, Order> entry: archive) {
-            if(entry.getKey().equals(id)) {
+        for (AbstractMap.SimpleEntry<Integer, Order> entry : archive) {
+            if (entry.getKey().equals(id)) {
                 return Optional.of(entry.getValue());
             }
         }

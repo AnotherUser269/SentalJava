@@ -16,10 +16,12 @@ public class BookCatalog implements Catalog<Book> {
     }
 
     public Optional<Book> get(String bookTitle) {
-        for(Map.Entry<Integer, Book> i: books.entrySet()) {
+        for (Map.Entry<Integer, Book> i : books.entrySet()) {
             Book currentBook = i.getValue();
 
-            if(Objects.equals(currentBook.getTitle(), bookTitle) && (currentBook.getStatus() == BookStatus.IN_ORDER)){
+            if (Objects.equals(currentBook.getTitle(), bookTitle) &&
+                    (currentBook.getStatus() == BookStatus.IN_ORDER)) {
+
                 return Optional.ofNullable(i.getValue());
             }
         }

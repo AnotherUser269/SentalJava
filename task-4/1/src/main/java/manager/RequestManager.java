@@ -21,7 +21,7 @@ public class RequestManager {
      *
      * @param id request identifier
      * @return {@link Optional} containing the {@link Request} if found, or empty otherwise
-    */
+     */
     public Optional<Request> findRequest(int id) {
         return requestCatalog.get(id);
     }
@@ -62,7 +62,7 @@ public class RequestManager {
     public Optional<Request> removeRequest(int id) {
         Optional<Request> removedRequest = requestCatalog.remove(id);
 
-        if(removedRequest.isPresent()) {
+        if (removedRequest.isPresent()) {
             removedRequest.get().setStatus(RequestStatus.CLOSED);
         }
 
