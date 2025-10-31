@@ -1,6 +1,8 @@
 package core;
 
-import enums.OrderStatus;
+import status_enums.OrderStatus;
+
+import java.math.BigDecimal;
 
 public class Order {
     private OrderStatus status = OrderStatus.New;
@@ -8,20 +10,32 @@ public class Order {
     private final long startTime;
     private long completionTime;
     private final int bookId;
+    private final String phoneNumber;
+    private final BigDecimal deliveryPrice;
 
-    public Order(int id, int bookId, long startTime) {
+    public Order(int id, int bookId, long startTime, String phoneNumber, BigDecimal deliveryPrice) {
         this.id = id;
         this.bookId = bookId;
         this.startTime = startTime;
         this.completionTime = -1;
+        this.phoneNumber = phoneNumber;
+        this.deliveryPrice = deliveryPrice;
+    }
+
+    public Order(int id, int bookId, long startTime, String phoneNumber) {
+        this(id, bookId, startTime, phoneNumber, BigDecimal.ZERO);
     }
 
     public OrderStatus getStatus() {
         return status;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public void setStatus(OrderStatus newStatus) {
-        if(!newStatus.equals(OrderStatus.New)) {
+        if (!newStatus.equals(OrderStatus.New)) {
             this.completionTime = System.currentTimeMillis() / 1000L;
         }
 
@@ -30,6 +44,10 @@ public class Order {
 
     public int getId() {
         return id;
+    }
+
+    public BigDecimal getDeliveryPrice() {
+        return deliveryPrice;
     }
 
     public int getBookId() {

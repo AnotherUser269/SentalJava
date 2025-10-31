@@ -3,7 +3,7 @@ package manager;
 import archive.RequestArchive;
 import catalog.RequestCatalog;
 import core.Request;
-import enums.RequestStatus;
+import status_enums.RequestStatus;
 
 import java.util.Optional;
 
@@ -17,31 +17,31 @@ public class RequestManager {
     }
 
     /**
-     * Finds a request by its identifier.
+     * Finds a request by its unique identifier.
      *
-     * @param id request identifier
-     * @return {@link Optional} containing the {@link Request} if found, or empty otherwise
+     * @param id the unique identifier of the request to be found.
+     * @return an Optional containing the found Request, or an empty Optional if not found.
      */
     public Optional<Request> findRequest(int id) {
         return requestCatalog.get(id);
     }
 
     /**
-     * Finds a request by book title.
+     * Finds a request by its book title.
      *
-     * @param bookTitle title of the requested book
-     * @return {@link Optional} containing the {@link Request} if found, or empty otherwise
+     * @param bookTitle the title of the book for which the request is made.
+     * @return an Optional containing the found Request, or an empty Optional if not found.
      */
     public Optional<Request> findRequestByTitle(String bookTitle) {
         return requestCatalog.get(bookTitle);
     }
 
     /**
-     * Creates a new request for the given book title.
-     * Generates a unique request id, creates a Request, stores it in the catalog and archive.
+     * Creates a new request with a unique ID for a given book title.
+     * The new request is added to both the request catalog and archive.
      *
-     * @param bookTitle title of the requested book
-     * @return the created {@link Request}
+     * @param bookTitle the title of the book for which the request is being created.
+     * @return the newly created Request object.
      */
     public Request createRequest(String bookTitle) {
         int requestId = generateId();
@@ -53,27 +53,28 @@ public class RequestManager {
     }
 
     /**
-     * Removes a request by its identifier.
-     * Delegates removal to the catalog and, if removed, sets the request status to {@link RequestStatus#Closed}.
+     * Removes a request by its unique identifier.
+     * The request's status is set to "Closed" if it is successfully removed.
      *
-     * @param id identifier of the request to remove
-     * @return {@link Optional} containing the removed {@link Request} if it existed, or empty otherwise
+     * @param id the unique identifier of the request to be removed.
+     * @return an Optional containing the removed Request, or an empty Optional if no request was found.
      */
     public Optional<Request> removeRequest(int id) {
         Optional<Request> removedRequest = requestCatalog.remove(id);
 
-        if (removedRequest.isPresent()) {
-            removedRequest.get().setStatus(RequestStatus.Closed);
+        if (removedRequest.isEmpty()) {
+            return removedRequest;
         }
+        removedRequest.get().setStatus(RequestStatus.Closed);
 
         return removedRequest;
     }
 
     /**
-     * Generates a new unique request identifier.
-     * Starts from 0 and increments until an id is found that does not exist in the archive.
+     * Generates a unique identifier for a new request by checking existing IDs
+     * in the request archive and ensuring that the new ID is not already in use.
      *
-     * @return new unique request id
+     * @return a unique ID that is not already present in the archive.
      */
     private int generateId() {
         int startId = 0;

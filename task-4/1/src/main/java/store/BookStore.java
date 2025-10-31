@@ -1,9 +1,10 @@
 package store;
 
 import core.*;
-import enums.*;
+import status_enums.*;
 import manager.*;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public class BookStore {
@@ -22,16 +23,20 @@ public class BookStore {
         this.requestManager = requestManager;
     }
 
+    /**
+     * Gets the name of the bookstore.
+     *
+     * @return The name of the bookstore.
+     */
     public String getName() {
         return name;
     }
 
     /**
-     * Creates a new request for a book by its title.
-     * Delegates the creation of a Request to the corresponding RequestManager.
+     * Creates a new request for a book.
      *
-     * @param bookTitle is the title of the book for which the application is being created
-     * @return created {@link Request} object
+     * @param bookTitle The title of the book to request.
+     * @return The created request object.
      */
     public Request createRequest(String bookTitle) {
         Request request = requestManager.createRequest(bookTitle);
@@ -39,27 +44,25 @@ public class BookStore {
         return request;
     }
 
+
     /**
-     * Creates a new order for a book by title.
-     * - Searches for the book via {@link BookManager}.
-     * - If the book is found, sets its status to {@link BookStatus#NotInOrder}
-     * and creates an order via {@link OrderManager}.
-     * - If not found, throws an exception.
+     * Creates an order for a book with the specified start time.
      *
-     * @param bookTitle title of the book to order
-     * @return created {@link Order}
-     * @throws Exception if no book with the given title is found
+     * @param bookTitle The title of the book to order.
+     * @param startTime The start time of the order (in seconds since epoch).
+     * @return The created order object.
+     * @throws Exception If the book does not exist.
      */
-    public Order createOrder(String bookTitle, long startTime) throws Exception {
+    public Order createOrder(String bookTitle, long startTime, String phoneNumber) throws Exception {
         Optional<Book> bookToOrder = bookManager.findBookByTitle(bookTitle);
 
         if (bookToOrder.isPresent()) {
             bookToOrder.get().setStatus(BookStatus.NotInOrder);
-            if(startTime < 0) {
+            if (startTime < 0) {
                 startTime = System.currentTimeMillis() / 1000L;
             }
 
-            Order order = orderManager.createOrder(bookToOrder.get().getId(), startTime);
+            Order order = orderManager.createOrder(bookToOrder.get().getId(), startTime, phoneNumber);
 
             return order;
         } else {
@@ -68,30 +71,41 @@ public class BookStore {
     }
 
     /**
-     * Finds the first book matching its title.
+     * Creates an order for a book with the current time as the start time.
      *
-     * @param bookTitle title of the book to find
-     * @return {@link Optional} containing the {@link Book} if found, or empty otherwise
+     * @param bookTitle The title of the book to order.
+     * @return The created order object.
+     * @throws Exception If the book does not exist.
+     */
+    public Order createOrder(String bookTitle, String phoneNumber) throws Exception {
+        return createOrder(bookTitle, -1, phoneNumber);
+    }
+
+    /**
+     * Finds a book by its title.
+     *
+     * @param bookTitle The title of the book to search for.
+     * @return An Optional containing the found book, or an empty Optional if not found.
      */
     public Optional<Book> findBook(String bookTitle) {
         return bookManager.findBookByTitle(bookTitle);
     }
 
     /**
-     * Adds a new book to the store.
-     * Delegates creation to {@link BookManager#addBook(String bookTitle, String author, String description,
-     * long timestamp, double price)}.
-     * If there is an open {@link Request} with the same title, marks it as {@link RequestStatus#Closed}
-     * and removes it from the RequestManager.
+     * Adds a new book to the bookstore with detailed information.
      *
-     * @param bookTitle title of the new book
-     * @return created {@link Book}
+     * @param bookTitle   The title of the book.
+     * @param author      The author of the book.
+     * @param description A description of the book.
+     * @param timestamp   The timestamp when the book was added.
+     * @param price       The price of the book.
+     * @return The newly added book.
      */
     public Book addBook(String bookTitle,
                         String author,
                         String description,
                         long timestamp,
-                        double price) {
+                        BigDecimal price) {
         Book newBook = bookManager.addBook(bookTitle, author, description, timestamp, price);
         Optional<Request> request = requestManager.findRequestByTitle(bookTitle);
 
@@ -104,17 +118,65 @@ public class BookStore {
     }
 
     /**
-     * Removes a book by its identifier.
-     * Delegates removal to {@link BookManager#removeBook(int)}.
-     * If a book was removed, sets its status to {@link BookStatus#NotInOrder}.
+     * Adds a new book to the bookstore with basic details and a default description.
      *
-     * @param id identifier of the book to remove
-     * @return {@link Optional} containing the removed {@link Book} if found, or empty otherwise
+     * @param bookTitle The title of the book.
+     * @param author    The author of the book.
+     * @param timestamp The timestamp when the book was added.
+     * @param price     The price of the book.
+     * @return The newly added book.
      */
-    public Optional<Book> removeBook(int id) {
+    public Book addBook(String bookTitle,
+                        String author,
+                        long timestamp,
+                        BigDecimal price) {
+        return addBook(bookTitle, author, "No description provided", timestamp, price);
+    }
+
+    /**
+     * Adds a new book to the bookstore with basic details, default description, and a default timestamp.
+     *
+     * @param bookTitle The title of the book.
+     * @param author    The author of the book.
+     * @param price     The price of the book.
+     * @return The newly added book.
+     */
+    public Book addBook(String bookTitle,
+                        String author,
+                        BigDecimal price) {
+        return addBook(bookTitle, author, "No description provided", -1, price);
+    }
+
+    /**
+     * Adds a new book to the bookstore with basic details and a default timestamp and description.
+     *
+     * @param bookTitle The title of the book.
+     * @param author    The author of the book.
+     * @param description The description of the book.
+     * @param price     The price of the book.
+     * @return The newly added book.
+     */
+    public Book addBook(String bookTitle,
+                        String author,
+                        String description,
+                        BigDecimal price) {
+        return addBook(bookTitle, author, description, -1, price);
+    }
+
+    /**
+     * Removes a book from the bookstore by its ID.
+     *
+     * @param id The ID of the book to remove.
+     * @return An Optional containing the removed book, or an empty Optional if no book with that ID was found.
+     */
+    public Optional<Book> removeBook(int id) throws Exception {
         Optional<Book> deletedBook = bookManager.removeBook(id);
 
         if (deletedBook.isPresent()) {
+            if(deletedBook.get().getStatus() == BookStatus.NotInOrder) {
+                throw new Exception("You are removing a book, that someone has already ordered!");
+            }
+
             deletedBook.get().setStatus(BookStatus.NotInOrder);
         }
 
@@ -122,12 +184,10 @@ public class BookStore {
     }
 
     /**
-     * Cancels (removes) a request by its identifier.
-     * Delegates removal to {@link RequestManager#removeRequest(int)}.
-     * If the request existed, marks it as {@link RequestStatus#Closed}.
+     * Cancels a request by its ID.
      *
-     * @param id identifier of the request to cancel
-     * @return {@link Optional} containing the removed {@link Request} if found, or empty otherwise
+     * @param id The ID of the request to cancel.
+     * @return An Optional containing the canceled request, or an empty Optional if no request with that ID was found.
      */
     public Optional<Request> cancelRequest(int id) {
         Optional<Request> deleteRequest = requestManager.removeRequest(id);
@@ -140,22 +200,22 @@ public class BookStore {
     }
 
     /**
-     * Closes (removes) an order by its identifier and sets the provided status.
-     * Delegates removal to {@link OrderManager#removeOrder(int, OrderStatus status)}. If the order is found, attempts
-     * to find the related book by {@link core.Order#getBookId()} and, if found, sets the book status
-     * to {@link BookStatus#InOrder}. Sets the order status to the provided {@link OrderStatus}.
+     * Closes an order by its ID and updates the status of the ordered book.
      *
-     * @param id     identifier of the order to close
-     * @param status status to assign to the order upon closing
-     * @return {@link Optional} containing the removed {@link Order} if found, or empty otherwise
+     * @param id     The ID of the order to close.
+     * @param status The status to set for the order.
+     * @return An Optional containing the closed order, or an empty Optional if no order with that ID was found.
      */
     public Optional<Order> closeOrder(int id, OrderStatus status) {
         Optional<Order> deleteOrder = orderManager.removeOrder(id, status);
 
         if (deleteOrder.isPresent()) {
             Optional<Book> orderedBook = bookManager.findBook(deleteOrder.get().getBookId());
-            if (orderedBook.isPresent()) {
+
+            if (orderedBook.isPresent() && status == OrderStatus.Dismissed) {
                 orderedBook.get().setStatus(BookStatus.InOrder);
+            } else if (orderedBook.isPresent() && status == OrderStatus.Success) {
+                bookManager.removeBook(orderedBook.get().getId());
             }
         }
 

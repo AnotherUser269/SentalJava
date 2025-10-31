@@ -1,6 +1,6 @@
 package core;
 
-import enums.RequestStatus;
+import status_enums.RequestStatus;
 
 public class Request {
     private RequestStatus status = RequestStatus.Opened;

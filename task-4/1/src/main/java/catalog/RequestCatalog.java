@@ -1,7 +1,7 @@
 package catalog;
 
 import core.Request;
-import enums.RequestStatus;
+import status_enums.RequestStatus;
 
 import java.util.HashMap;
 import java.util.Map;

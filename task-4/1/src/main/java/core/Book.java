@@ -1,6 +1,9 @@
 package core;
 
-import enums.BookStatus;
+import status_enums.BookStatus;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class Book {
     private BookStatus status = BookStatus.InOrder;
@@ -8,7 +11,7 @@ public class Book {
     private final String author;
     private final String description;
     private final long timeStamp;
-    private final double price;
+    private final BigDecimal price;
     private final int id;
 
     public Book(int id,
@@ -16,8 +19,7 @@ public class Book {
                 String author,
                 String description,
                 long timeStamp,
-                double price)
-    {
+                BigDecimal price) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -54,7 +56,7 @@ public class Book {
         return timeStamp;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 

@@ -3,8 +3,9 @@ package manager;
 import archive.BookArchive;
 import catalog.BookCatalog;
 import core.Book;
-import enums.BookStatus;
+import status_enums.BookStatus;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public class BookManager {
@@ -17,42 +18,42 @@ public class BookManager {
     }
 
     /**
-     * Finds a book by its identifier.
+     * Finds a book by its unique identifier in the book archive.
      *
-     * @param id book identifier
-     * @return {@link Optional} containing the {@link Book} if found, or empty otherwise
+     * @param id the unique identifier of the book to be found.
+     * @return an Optional containing the found Book, or an empty Optional if not found.
      */
     public Optional<Book> findBook(int id) {
         return bookArchive.find(id);
     }
 
     /**
-     * Finds a book by its title.
+     * Finds a book by its title in the book catalog.
      *
-     * @param bookTitle title to search for
-     * @return {@link Optional} containing the {@link Book} if found, or empty otherwise
+     * @param bookTitle the title of the book to be found.
+     * @return an Optional containing the found Book, or an empty Optional if not found.
      */
     public Optional<Book> findBookByTitle(String bookTitle) {
         return bookCatalog.get(bookTitle);
     }
 
     /**
-     * Creates a new {@link Book}, assigns it a generated id, sets the timestamp
-     * (uses current time when a negative {@code timeStamp} is supplied), and
-     * stores the book in both the catalog and the archive.
+     * Adds a new book to the catalog and archive with a unique ID and specified details.
+     * If the provided timestamp is negative, the current system timestamp is used.
      *
-     * @param title       the book title;
-     * @param author      the book author;
-     * @param description short description of the book;
-     * @param timeStamp   creation timestamp in seconds since the epoch;
-     *                    if negative, the current timestamp will be used
-     * @return the newly created {@link Book}
+     * @param title the title of the book.
+     * @param author the author of the book.
+     * @param description a brief description of the book.
+     * @param timeStamp the timestamp (in seconds since the epoch) when the book was added;
+     *                  if negative, the current time is used.
+     * @param price the price of the book.
+     * @return the newly added Book object.
      */
     public Book addBook(String title,
                         String author,
                         String description,
                         long timeStamp,
-                        double price) {
+                        BigDecimal price) {
         int bookId = generateId();
 
         if (timeStamp < 0) {
@@ -67,27 +68,27 @@ public class BookManager {
     }
 
     /**
-     * Removes a book by its identifier.
-     * Delegates removal to the catalog and, if removed, sets the book status to {@link BookStatus#NotInOrder}.
+     * Removes a book by its unique identifier from the book catalog.
+     * The status of the removed book is set to "NotInOrder".
      *
-     * @param id identifier of the book to remove
-     * @return {@link Optional} containing the removed {@link Book} if it existed, or empty otherwise
+     * @param id the unique identifier of the book to be removed.
+     * @return an Optional containing the removed Book, or an empty Optional if no book was found.
      */
     public Optional<Book> removeBook(int id) {
         Optional<Book> removedBook = bookCatalog.remove(id);
 
-        if (removedBook.isPresent()) {
-            removedBook.get().setStatus(BookStatus.NotInOrder);
+        if (removedBook.isEmpty()) {
+            return removedBook;
         }
 
         return removedBook;
     }
 
     /**
-     * Generates a new unique book identifier.
-     * Starts from 0 and increments until an id is found that does not exist in the archive.
+     * Generates a unique identifier for a new book by checking existing IDs
+     * in the book archive and ensuring that the new ID is not already in use.
      *
-     * @return new unique book id
+     * @return a unique ID that is not already present in the archive.
      */
     private int generateId() {
         int startId = 0;
@@ -99,6 +100,12 @@ public class BookManager {
         return startId;
     }
 
+    /**
+     * Retrieves the current system timestamp in seconds.
+     * This timestamp is typically used when no specific time is provided.
+     *
+     * @return the current timestamp in seconds since the epoch.
+     */
     private long getCurrentTimeStamp() {
         return System.currentTimeMillis() / 1000L;
     }
