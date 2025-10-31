@@ -41,12 +41,12 @@ public class BookManager {
      * Adds a new book to the catalog and archive with a unique ID and specified details.
      * If the provided timestamp is negative, the current system timestamp is used.
      *
-     * @param title the title of the book.
-     * @param author the author of the book.
+     * @param title       the title of the book.
+     * @param author      the author of the book.
      * @param description a brief description of the book.
-     * @param timeStamp the timestamp (in seconds since the epoch) when the book was added;
-     *                  if negative, the current time is used.
-     * @param price the price of the book.
+     * @param timeStamp   the timestamp (in seconds since the epoch) when the book was added;
+     *                    if negative, the current time is used.
+     * @param price       the price of the book.
      * @return the newly added Book object.
      */
     public Book addBook(String title,

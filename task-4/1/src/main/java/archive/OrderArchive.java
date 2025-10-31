@@ -15,7 +15,6 @@ import status_enums.OrderStatus;
 public class OrderArchive implements Archive<Order> {
     private final ArrayList<AbstractMap.SimpleEntry<Integer, Order>> archive = new ArrayList<>();
 
-    // TODO: Сортировка =(((
     public void sortBy(OrderSort sortType) {
         if (sortType == OrderSort.EndTimeAscending) {
             archive.sort(Comparator.comparing(item -> item.getValue().getCompletionTime()));
@@ -32,7 +31,7 @@ public class OrderArchive implements Archive<Order> {
         int currentAmount = 0;
 
         for (AbstractMap.SimpleEntry<Integer, Order> entry : archive) {
-            if(entry.getValue().getStartTime() >= StartTime && entry.getValue().getCompletionTime() <= EndTime) {
+            if (entry.getValue().getStartTime() >= StartTime && entry.getValue().getCompletionTime() <= EndTime) {
                 currentAmount++;
             }
         }
@@ -44,7 +43,7 @@ public class OrderArchive implements Archive<Order> {
         ArrayList<Order> orders = new ArrayList<>();
 
         for (AbstractMap.SimpleEntry<Integer, Order> entry : archive) {
-            if(entry.getValue().getStartTime() >= StartTime && entry.getValue().getCompletionTime() <= EndTime) {
+            if (entry.getValue().getStartTime() >= StartTime && entry.getValue().getCompletionTime() <= EndTime) {
                 orders.add(entry.getValue());
             }
         }

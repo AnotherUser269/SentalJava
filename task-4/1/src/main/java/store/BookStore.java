@@ -150,10 +150,10 @@ public class BookStore {
     /**
      * Adds a new book to the bookstore with basic details and a default timestamp and description.
      *
-     * @param bookTitle The title of the book.
-     * @param author    The author of the book.
+     * @param bookTitle   The title of the book.
+     * @param author      The author of the book.
      * @param description The description of the book.
-     * @param price     The price of the book.
+     * @param price       The price of the book.
      * @return The newly added book.
      */
     public Book addBook(String bookTitle,
@@ -173,7 +173,7 @@ public class BookStore {
         Optional<Book> deletedBook = bookManager.removeBook(id);
 
         if (deletedBook.isPresent()) {
-            if(deletedBook.get().getStatus() == BookStatus.NotInOrder) {
+            if (deletedBook.get().getStatus() == BookStatus.NotInOrder) {
                 throw new Exception("You are removing a book, that someone has already ordered!");
             }
 

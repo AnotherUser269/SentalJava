@@ -24,7 +24,7 @@ public class BookCatalog implements Catalog<Book> {
 
             BigDecimal ageBd = BigDecimal.valueOf(i.getValue().getTimeStamp());
 
-            if(i.getValue().getStatus() == BookStatus.InOrder && currentBd.subtract(ageBd).compareTo(seconds) >= 0) {
+            if (i.getValue().getStatus() == BookStatus.InOrder && currentBd.subtract(ageBd).compareTo(seconds) >= 0) {
                 notSoldedBooks.add(i.getValue());
             }
         }
