@@ -5,6 +5,7 @@ import catalog.OrderCatalog;
 import core.Order;
 import status_enums.OrderStatus;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public class OrderManager {
@@ -20,14 +21,14 @@ public class OrderManager {
         return orderArchive.find(id);
     }
 
-    public Order createOrder(int id, long startTime, String phoneNumber) {
+    public Order createOrder(int id, long startTime, String phoneNumber, BigDecimal deliveryPrice) {
         int orderId = generateId();
 
         if (startTime < 0) {
             startTime = System.currentTimeMillis() / 1000L;
         }
 
-        Order newOrder = new Order(orderId, id, startTime, phoneNumber);
+        Order newOrder = new Order(orderId, id, startTime, phoneNumber, deliveryPrice);
         orderCatalog.put(newOrder);
         orderArchive.put(newOrder);
 

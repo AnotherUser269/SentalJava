@@ -50,10 +50,12 @@ public class BookStore {
      *
      * @param bookTitle The title of the book to order.
      * @param startTime The start time of the order (in seconds since epoch).
+     * @param phoneNumber The client's phone number.
+     * @param deliveryPrice The price of the delivery.
      * @return The created order object.
      * @throws Exception If the book does not exist.
      */
-    public Order createOrder(String bookTitle, long startTime, String phoneNumber) throws Exception {
+    public Order createOrder(String bookTitle, long startTime, String phoneNumber, BigDecimal deliveryPrice) throws Exception {
         Optional<Book> bookToOrder = bookManager.findBookByTitle(bookTitle);
 
         if (bookToOrder.isPresent()) {
@@ -62,7 +64,7 @@ public class BookStore {
                 startTime = System.currentTimeMillis() / 1000L;
             }
 
-            Order order = orderManager.createOrder(bookToOrder.get().getId(), startTime, phoneNumber);
+            Order order = orderManager.createOrder(bookToOrder.get().getId(), startTime, phoneNumber, deliveryPrice);
 
             return order;
         } else {
@@ -74,11 +76,13 @@ public class BookStore {
      * Creates an order for a book with the current time as the start time.
      *
      * @param bookTitle The title of the book to order.
+     * @param phoneNumber The client's phone number.
+     * @param deliveryPrice The price of the delivery.
      * @return The created order object.
      * @throws Exception If the book does not exist.
      */
-    public Order createOrder(String bookTitle, String phoneNumber) throws Exception {
-        return createOrder(bookTitle, -1, phoneNumber);
+    public Order createOrder(String bookTitle, String phoneNumber, BigDecimal deliveryPrice) throws Exception {
+        return createOrder(bookTitle, -1, phoneNumber, deliveryPrice);
     }
 
     /**

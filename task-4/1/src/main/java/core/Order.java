@@ -60,6 +60,10 @@ public class Order {
                 "id=" + id +
                 ", bookId=" + bookId +
                 ", status=" + status +
+                ", startTime=" + startTime +
+                ", completionTime=" + completionTime +
+                ", phoneNumber=" + phoneNumber +
+                ", deliveryPrice=" + deliveryPrice +
                 '}';
     }
 

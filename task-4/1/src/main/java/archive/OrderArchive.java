@@ -27,11 +27,14 @@ public class OrderArchive implements Archive<Order> {
         }
     }
 
-    private int amountOrderedInTime(long StartTime, long EndTime) {
+    public int amountOrderedInTime(long StartTime, long EndTime) {
         int currentAmount = 0;
 
         for (AbstractMap.SimpleEntry<Integer, Order> entry : archive) {
-            if (entry.getValue().getStartTime() >= StartTime && entry.getValue().getCompletionTime() <= EndTime) {
+            Order currentOrder = entry.getValue();
+
+            if (currentOrder.getStartTime() >= StartTime && currentOrder.getCompletionTime() <= EndTime && currentOrder.getCompletionTime() != -1) {
+                // System.out.println(entry);
                 currentAmount++;
             }
         }
@@ -39,7 +42,7 @@ public class OrderArchive implements Archive<Order> {
         return currentAmount;
     }
 
-    private ArrayList<Order> getOrderedInTime(long StartTime, long EndTime) {
+    public ArrayList<Order> getOrderedInTime(long StartTime, long EndTime) {
         ArrayList<Order> orders = new ArrayList<>();
 
         for (AbstractMap.SimpleEntry<Integer, Order> entry : archive) {
