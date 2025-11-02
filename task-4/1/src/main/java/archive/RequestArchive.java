@@ -2,13 +2,10 @@ package archive;
 
 import java.util.*;
 
-import core.Book;
-import core.Order;
 import core.Request;
-import sort_enums.BookSort;
 import sort_enums.RequestSort;
 
-public class RequestArchive implements Archive<Request> {
+public class RequestArchive implements IArchive<Request> {
     private final ArrayList<AbstractMap.SimpleEntry<Integer, Request>> archive = new ArrayList<>();
 
     public void sortBy(RequestSort sortType) {

@@ -7,7 +7,7 @@ import time.TimeUnits;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class BookCatalog implements Catalog<Book> {
+public class BookCatalog implements ICatalog<Book> {
     private final Map<Integer, Book> books;
 
     public BookCatalog() {

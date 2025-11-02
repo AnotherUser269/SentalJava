@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class OrderCatalog implements Catalog<Order> {
+public class OrderCatalog implements ICatalog<Order> {
     private final Map<Integer, Order> orders;
 
     public OrderCatalog() {

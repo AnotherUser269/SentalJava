@@ -3,7 +3,7 @@ package archive;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public interface Archive<T> {
+public interface IArchive<T> {
     void put(T element);
 
     Optional<T> remove(int id);

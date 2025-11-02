@@ -6,7 +6,7 @@ import core.Book;
 import sort_enums.BookSort;
 import status_enums.BookStatus;
 
-public class BookArchive implements Archive<Book> {
+public class BookArchive implements IArchive<Book> {
     private final ArrayList<AbstractMap.SimpleEntry<Integer, Book>> archive = new ArrayList<>();
 
     public void sortBy(BookSort sortType) {

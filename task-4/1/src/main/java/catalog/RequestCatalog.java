@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-public class RequestCatalog implements Catalog<Request> {
+public class RequestCatalog implements ICatalog<Request> {
     private final Map<Integer, Request> requests;
 
     public RequestCatalog() {

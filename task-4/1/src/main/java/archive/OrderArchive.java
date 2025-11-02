@@ -5,14 +5,11 @@ import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Optional;
 
-import core.Book;
 import core.Order;
-import sort_enums.BookSort;
 import sort_enums.OrderSort;
-import status_enums.BookStatus;
 import status_enums.OrderStatus;
 
-public class OrderArchive implements Archive<Order> {
+public class OrderArchive implements IArchive<Order> {
     private final ArrayList<AbstractMap.SimpleEntry<Integer, Order>> archive = new ArrayList<>();
 
     public void sortBy(OrderSort sortType) {

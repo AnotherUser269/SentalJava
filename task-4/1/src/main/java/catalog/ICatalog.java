@@ -2,7 +2,7 @@ package catalog;
 
 import java.util.Optional;
 
-public interface Catalog<T> {
+public interface ICatalog<T> {
     void put(T element);
 
     Optional<T> remove(int id);
