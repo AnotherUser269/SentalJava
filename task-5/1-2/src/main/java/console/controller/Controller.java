@@ -24,6 +24,9 @@ import java.util.Optional;
 public class Controller {
     // UI constants
     private static final int SEPARATOR_LENGTH = 50;
+    private static Controller INSTANCE;
+
+    private Controller() {}
 
     private final Map<String, IScreen> screens = Map.of(
             ScreenKey.START.key(), new StartScreen(),
@@ -159,5 +162,13 @@ public class Controller {
                 orderArchive.printAll();
             }
         }
+    }
+
+    public static Controller getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Controller();
+        }
+
+        return INSTANCE;
     }
 }
