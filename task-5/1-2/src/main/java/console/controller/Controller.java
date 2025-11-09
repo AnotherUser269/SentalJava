@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Controller {
-    // UI constants
     private static final int SEPARATOR_LENGTH = 50;
+
     private static Controller INSTANCE;
 
     private Controller() {}
@@ -40,7 +40,6 @@ public class Controller {
     private final RequestArchive requestArchive = new RequestArchive();
 
     public void run() {
-        // Preparation
         screens.get("Start").show();
         BookStore bookStore = new BookStore((String) screens.get("Start").askInput(),
                 new BookManager(bookCatalog, bookArchive),
