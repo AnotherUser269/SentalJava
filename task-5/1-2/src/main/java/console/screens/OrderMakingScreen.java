@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class OrderMakingScreen implements IScreen<Object> {
     private final String HEADER = "> You are ordering a book.";
-    private final String PROMPT = "Please, answer next questions: ";
+    private final String PROMPT = "[INPUT] Please, answer next questions: ";
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     @Override

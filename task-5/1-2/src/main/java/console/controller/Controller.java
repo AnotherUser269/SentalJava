@@ -22,31 +22,18 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Controller {
-    // Constants
-    private static final int OPTION_ADD_BOOK = 1;
-    private static final int OPTION_REMOVE_BOOK = 2;
-    private static final int OPTION_MAKE_REQUEST = 3;
-    private static final int OPTION_CANCEL_REQUEST = 4;
-    private static final int OPTION_MAKE_ORDER = 5;
-    private static final int OPTION_CANCEL_ORDER = 6;
-    private static final int OPTION_PRINT_BOOK_CATALOG = 7;
-    private static final int OPTION_PRINT_REQUEST_CATALOG = 8;
-    private static final int OPTION_PRINT_ORDER_CATALOG = 9;
-    private static final int OPTION_PRINT_BOOK_ARCHIVE = 10;
-    private static final int OPTION_PRINT_REQUEST_ARCHIVE = 11;
-    private static final int OPTION_PRINT_ORDER_ARCHIVE = 12;
-
     // UI constants
     private static final int SEPARATOR_LENGTH = 50;
 
-    private final Map<String, IScreen> screens = Map.of("Start", new StartScreen(),
-            "MainMenu", new MainMenuScreen(),
-            "BookAdd", new BookAddingScreen(),
-            "BookRemove", new BookRemovingScreen(),
-            "OrderMake", new OrderMakingScreen(),
-            "OrderCancel", new OrderCancellingScreen(),
-            "RequestMake", new RequestMakingScreen(),
-            "RequestCancel", new RequestCancellingScreen());
+    private final Map<String, IScreen> screens = Map.of(
+            ScreenKey.START.key(), new StartScreen(),
+            ScreenKey.MAIN_MENU.key(), new MainMenuScreen(),
+            ScreenKey.BOOK_ADD.key(), new BookAddingScreen(),
+            ScreenKey.BOOK_REMOVE.key(), new BookRemovingScreen(),
+            ScreenKey.ORDER_MAKE.key(), new OrderMakingScreen(),
+            ScreenKey.ORDER_CANCEL.key(), new OrderCancellingScreen(),
+            ScreenKey.REQUEST_MAKE.key(), new RequestMakingScreen(),
+            ScreenKey.REQUEST_CANCEL.key(), new RequestCancellingScreen());
 
     private final BookCatalog bookCatalog = new BookCatalog();
     private final BookArchive bookArchive = new BookArchive();
@@ -75,7 +62,7 @@ public class Controller {
             userInput = (int) screens.get("MainMenu").askInput();
             System.out.println("-".repeat(SEPARATOR_LENGTH));
 
-            if (userInput == OPTION_ADD_BOOK) {
+            if (MainOptions.fromIndex(userInput) == MainOptions.ADD_BOOK) {
                 screens.get("BookAdd").show();
                 ArrayList<Object> data = ((BookAddingScreen) screens.get("BookAdd")).askInput();
                 Book addedBook = bookStore.addBook(data.get(0).toString(),
@@ -85,7 +72,7 @@ public class Controller {
                         new BigDecimal(data.get(4).toString()));
 
                 System.out.printf("[INFO]: Created: %s\n", addedBook);
-            } else if (userInput == OPTION_REMOVE_BOOK) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.REMOVE_BOOK) {
                 screens.get("BookRemove").show();
                 Integer idToRemove = ((BookRemovingScreen) screens.get("BookRemove")).askInput();
 
@@ -100,13 +87,13 @@ public class Controller {
                 } catch (Exception e) {
                     System.out.printf("[ERROR] %s\n", e.getMessage());
                 }
-            } else if (userInput == OPTION_MAKE_REQUEST) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.MAKE_REQUEST) {
                 screens.get("RequestMake").show();
                 String title = ((RequestMakingScreen) screens.get("RequestMake")).askInput();
                 Request addedRequest = bookStore.createRequest(title);
 
                 System.out.printf("[INFO]: Created: %s\n", addedRequest);
-            } else if (userInput == OPTION_CANCEL_REQUEST) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.CANCEL_REQUEST) {
                 screens.get("RequestCancel").show();
                 int idToRemove = ((RequestCancellingScreen) screens.get("RequestCancel")).askInput();
 
@@ -121,7 +108,7 @@ public class Controller {
                 } catch (Exception e) {
                     System.out.printf("[ERROR] %s\n", e.getMessage());
                 }
-            } else if (userInput == OPTION_MAKE_ORDER) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.MAKE_ORDER) {
                 screens.get("OrderMake").show();
 
                 ArrayList<Object> data = ((OrderMakingScreen) screens.get("OrderMake")).askInput();
@@ -137,7 +124,7 @@ public class Controller {
                     System.out.printf("[ERROR] %s\n", e.getMessage());
                 }
 
-            } else if (userInput == OPTION_CANCEL_ORDER) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.CANCEL_ORDER) {
                 screens.get("OrderCancel").show();
                 ArrayList<Object> data = ((OrderCancellingScreen) screens.get("OrderCancel")).askInput();
 
@@ -152,22 +139,22 @@ public class Controller {
                 } catch (Exception e) {
                     System.out.printf("[ERROR] %s\n", e.getMessage());
                 }
-            } else if (userInput == OPTION_PRINT_BOOK_CATALOG) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.PRINT_BOOK_CATALOG) {
                 System.out.println("> Book catalog:");
                 bookCatalog.printAll();
-            } else if (userInput == OPTION_PRINT_REQUEST_CATALOG) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.PRINT_REQUEST_CATALOG) {
                 System.out.println("> Request catalog:");
                 requestCatalog.printAll();
-            } else if (userInput == OPTION_PRINT_ORDER_CATALOG) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.PRINT_ORDER_CATALOG) {
                 System.out.println("> Order catalog:");
                 orderCatalog.printAll();
-            } else if (userInput == OPTION_PRINT_BOOK_ARCHIVE) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.PRINT_BOOK_ARCHIVE) {
                 System.out.println("> Book archive:");
                 bookArchive.printAll();
-            } else if (userInput == OPTION_PRINT_REQUEST_ARCHIVE) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.PRINT_REQUEST_ARCHIVE) {
                 System.out.println("> Request archive:");
                 requestArchive.printAll();
-            } else if (userInput == OPTION_PRINT_ORDER_ARCHIVE) {
+            } else if (MainOptions.fromIndex(userInput) == MainOptions.PRINT_ORDER_ARCHIVE) {
                 System.out.println("> Order archive:");
                 orderArchive.printAll();
             }

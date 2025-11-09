@@ -35,7 +35,7 @@ public class OrderCancellingScreen implements IScreen<ArrayList<Object>> {
         }
 
         while (true) {
-            System.out.print("Please, provide the reason (1 - Success, 2 - Dismiss): ");
+            System.out.print("[INPUT] Please, provide the reason (1 - Success, 2 - Dismiss): ");
 
             try {
                 int choice = Integer.parseInt(br.readLine());
