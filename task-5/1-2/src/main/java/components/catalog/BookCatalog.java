@@ -5,7 +5,11 @@ import components.core.Book;
 import components.time.TimeUnits;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Optional;
 
 public class BookCatalog implements ICatalog<Book> {
     private final Map<Integer, Book> books;

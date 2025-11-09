@@ -1,6 +1,11 @@
 package components.archive;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.ArrayList;
+import java.util.AbstractMap;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import components.sort_enums.RequestSort;
 import components.core.Request;
@@ -12,15 +17,15 @@ public class RequestArchive implements IArchive<Request> {
         if (sortType == RequestSort.AlphabetAscending) {
             archive.sort(Comparator.comparing(item -> item.getValue().getBookTitle().charAt(0)));
         } else if (sortType == RequestSort.AmountAscending) {
-            Map<String, Integer> frequences = new HashMap<>();
+            Map<String, Integer> frequencies = new HashMap<>();
 
             for (AbstractMap.SimpleEntry<Integer, Request> entry : archive) {
                 String bookTitle = entry.getValue().getBookTitle();
 
-                frequences.put(bookTitle, frequences.getOrDefault(bookTitle, 0) + 1);
+                frequencies.put(bookTitle, frequencies.getOrDefault(bookTitle, 0) + 1);
             }
 
-            archive.sort(Comparator.comparing(item -> frequences.get(item.getValue().getBookTitle())));
+            archive.sort(Comparator.comparing(item -> frequencies.get(item.getValue().getBookTitle())));
 
         } else {
             throw new RuntimeException("Wrong sort type provided!");

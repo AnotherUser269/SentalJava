@@ -1,20 +1,12 @@
 package console.controller;
 
-import components.archive.BookArchive;
-import components.archive.OrderArchive;
-import components.archive.RequestArchive;
-import components.catalog.BookCatalog;
-import components.catalog.OrderCatalog;
-import components.catalog.RequestCatalog;
-import components.core.Book;
-import components.core.Order;
-import components.core.Request;
-import components.manager.BookManager;
-import components.manager.OrderManager;
-import components.manager.RequestManager;
+import components.archive.*;
+import components.catalog.*;
+import components.core.*;
+import components.manager.*;
+import console.screens.*;
 import components.status_enums.OrderStatus;
 import components.store.BookStore;
-import console.screens.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
