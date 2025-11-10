@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookAddingScreen implements IScreen<Object> {
     private final String HEADER = "> You are adding a book";
@@ -20,14 +21,14 @@ public class BookAddingScreen implements IScreen<Object> {
     }
 
     @Override
-    public ArrayList<Object> askInput() {
+    public List<Object> askInput() {
         String bookTitle;
         String authorName;
         String description;
         long timeStamp = -1;
         BigDecimal price;
 
-        ArrayList<Object> data = new ArrayList<>();
+        List<Object> data = new ArrayList<>();
 
         do {
             System.out.print("What's the title of a book?: ");
@@ -48,7 +49,7 @@ public class BookAddingScreen implements IScreen<Object> {
             try {
                 timeStamp = Long.parseLong(timeAns);
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] Wrong number provided. Using default time.");
+                System.err.println("[ERROR] Wrong number provided. Using default time.");
             }
         }
 
@@ -62,7 +63,7 @@ public class BookAddingScreen implements IScreen<Object> {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] Wrong price provided. Try again.");
+                System.err.println("[ERROR] Wrong price provided. Try again.");
             }
         }
 
@@ -79,7 +80,7 @@ public class BookAddingScreen implements IScreen<Object> {
         try {
             return br.readLine();
         } catch (IOException e) {
-            System.out.println("[ERROR] Input error: " + e.getMessage());
+            System.err.println("[ERROR] Input error: " + e.getMessage());
             return "";
         }
     }

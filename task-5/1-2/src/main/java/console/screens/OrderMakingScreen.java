@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderMakingScreen implements IScreen<Object> {
     private final String HEADER = "> You are ordering a book.";
@@ -20,13 +21,13 @@ public class OrderMakingScreen implements IScreen<Object> {
     }
 
     @Override
-    public ArrayList<Object> askInput() {
+    public List<Object> askInput() {
         String bookTitle;
         long startTime = -1;
         String phoneNumber;
         BigDecimal price;
 
-        ArrayList<Object> data = new ArrayList<>();
+        List<Object> data = new ArrayList<>();
 
         System.out.println("What's the title of a book?: ");
         bookTitle = readInput();
@@ -37,7 +38,7 @@ public class OrderMakingScreen implements IScreen<Object> {
             try {
                 startTime = Long.parseLong(timeAns);
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] Wrong number provided. Using default time.");
+                System.err.println("[ERROR] Wrong number provided. Using default time.");
             }
         }
 
@@ -56,7 +57,7 @@ public class OrderMakingScreen implements IScreen<Object> {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("[ERROR] Wrong price provided. Try again.");
+                System.err.println("[ERROR] Wrong price provided. Try again.");
             }
         }
 
@@ -72,7 +73,7 @@ public class OrderMakingScreen implements IScreen<Object> {
         try {
             return br.readLine();
         } catch (IOException e) {
-            System.out.println("[ERROR] Input error: " + e.getMessage());
+            System.err.println("[ERROR] Input error: " + e.getMessage());
             return "";
         }
     }

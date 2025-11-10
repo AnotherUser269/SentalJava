@@ -29,7 +29,7 @@ public class StartScreen implements IScreen<String> {
                 return line;
 
             } catch (Exception e) {
-                System.out.println("[ERROR] Wrong input. Try again.");
+                System.err.println("[ERROR] Wrong input. Try again.");
             }
         }
     }

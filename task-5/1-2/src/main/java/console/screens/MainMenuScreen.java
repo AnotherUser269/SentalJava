@@ -41,7 +41,7 @@ public class MainMenuScreen implements IScreen<Integer> {
                 throw new Exception("Not in range");
 
             } catch (Exception e) {
-                System.out.println("[ERROR] Wrong input. Try again.");
+                System.err.println("[ERROR] Wrong input. Try again.");
             }
         }
     }

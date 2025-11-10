@@ -10,6 +10,7 @@ import components.store.BookStore;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -58,7 +59,7 @@ public class Controller {
 
             if (MainOptions.fromIndex(userInput) == MainOptions.ADD_BOOK) {
                 screens.get("BookAdd").show();
-                ArrayList<Object> data = ((BookAddingScreen) screens.get("BookAdd")).askInput();
+                List<Object> data = ((BookAddingScreen) screens.get("BookAdd")).askInput();
                 Book addedBook = bookStore.addBook(data.get(0).toString(),
                         data.get(1).toString(),
                         data.get(2).toString(),
@@ -105,7 +106,7 @@ public class Controller {
             } else if (MainOptions.fromIndex(userInput) == MainOptions.MAKE_ORDER) {
                 screens.get("OrderMake").show();
 
-                ArrayList<Object> data = ((OrderMakingScreen) screens.get("OrderMake")).askInput();
+                List<Object> data = ((OrderMakingScreen) screens.get("OrderMake")).askInput();
 
                 try {
                     Order newOrder = bookStore.createOrder(data.get(0).toString(),
@@ -120,7 +121,7 @@ public class Controller {
 
             } else if (MainOptions.fromIndex(userInput) == MainOptions.CANCEL_ORDER) {
                 screens.get("OrderCancel").show();
-                ArrayList<Object> data = ((OrderCancellingScreen) screens.get("OrderCancel")).askInput();
+                List<Object> data = ((OrderCancellingScreen) screens.get("OrderCancel")).askInput();
 
                 try {
                     Optional<Order> canceledRequest = bookStore.closeOrder((int) data.get(0), (OrderStatus) data.get(1));

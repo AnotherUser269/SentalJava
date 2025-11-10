@@ -2,6 +2,7 @@ package components.archive;
 
 import java.util.Optional;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import components.sort_enums.RequestSort;
 import components.core.Request;
 
 public class RequestArchive implements IArchive<Request> {
-    private final ArrayList<AbstractMap.SimpleEntry<Integer, Request>> archive = new ArrayList<>();
+    private final List<AbstractMap.SimpleEntry<Integer, Request>> archive = new ArrayList<>();
 
     public void sortBy(RequestSort sortType) {
         if (sortType == RequestSort.AlphabetAscending) {

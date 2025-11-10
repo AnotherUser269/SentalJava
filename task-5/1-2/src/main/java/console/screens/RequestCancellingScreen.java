@@ -22,7 +22,7 @@ public class RequestCancellingScreen implements IScreen<Integer> {
             try {
                 return Integer.parseInt(br.readLine());
             } catch (Exception e) {
-                System.out.println("[ERROR] Wrong input. Try again.");
+                System.err.println("[ERROR] Wrong input. Try again.");
             }
         }
 

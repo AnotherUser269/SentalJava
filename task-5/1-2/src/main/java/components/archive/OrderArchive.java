@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.List;
 
 import components.sort_enums.OrderSort;
 import components.status_enums.OrderStatus;
 import components.core.Order;
 
 public class OrderArchive implements IArchive<Order> {
-    private final ArrayList<AbstractMap.SimpleEntry<Integer, Order>> archive = new ArrayList<>();
+    private final List<AbstractMap.SimpleEntry<Integer, Order>> archive = new ArrayList<>();
 
     public void sortBy(OrderSort sortType) {
         if (sortType == OrderSort.EndTimeAscending) {

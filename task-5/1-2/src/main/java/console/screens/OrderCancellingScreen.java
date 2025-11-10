@@ -5,8 +5,9 @@ import components.status_enums.OrderStatus;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
-public class OrderCancellingScreen implements IScreen<ArrayList<Object>> {
+public class OrderCancellingScreen implements IScreen<Object> {
     final private String HEADER = "> You are trying to cancel an order.";
 
     final private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,10 +19,10 @@ public class OrderCancellingScreen implements IScreen<ArrayList<Object>> {
     }
 
     @Override
-    public ArrayList<Object> askInput() {
+    public List<Object> askInput() {
         int idToRemove;
         OrderStatus reason;
-        ArrayList<Object> data = new ArrayList<>();
+        List<Object> data = new ArrayList<>();
 
         while (true) {
             System.out.print("[INPUT] Please, provide an identificator of the order to remove: ");
@@ -30,7 +31,7 @@ public class OrderCancellingScreen implements IScreen<ArrayList<Object>> {
                 idToRemove = Integer.parseInt(br.readLine());
                 break;
             } catch (Exception e) {
-                System.out.println("Wrong input. Try again.");
+                System.err.println("[ERROR] Wrong input. Try again.");
             }
         }
 
@@ -50,7 +51,7 @@ public class OrderCancellingScreen implements IScreen<ArrayList<Object>> {
 
                 break;
             } catch (Exception e) {
-                System.out.println("[ERROR] Wrong input. Try again.");
+                System.err.println("[ERROR] Wrong input. Try again.");
             }
         }
 

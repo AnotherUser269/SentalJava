@@ -39,9 +39,7 @@ public class BookStore {
      * @return The created request object.
      */
     public Request createRequest(String bookTitle) {
-        Request request = requestManager.createRequest(bookTitle);
-
-        return request;
+        return requestManager.createRequest(bookTitle);
     }
 
 
@@ -64,9 +62,7 @@ public class BookStore {
                 startTime = System.currentTimeMillis() / 1000L;
             }
 
-            Order order = orderManager.createOrder(bookToOrder.get().getId(), startTime, phoneNumber, deliveryPrice);
-
-            return order;
+            return orderManager.createOrder(bookToOrder.get().getId(), startTime, phoneNumber, deliveryPrice);
         } else {
             throw new Exception("You are ordering a non existing book!");
         }

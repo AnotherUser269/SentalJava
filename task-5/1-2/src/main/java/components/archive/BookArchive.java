@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.List;
 
 import components.sort_enums.BookSort;
 import components.status_enums.BookStatus;
 import components.core.Book;
 
 public class BookArchive implements IArchive<Book> {
-    private final ArrayList<AbstractMap.SimpleEntry<Integer, Book>> archive = new ArrayList<>();
+    private final List<AbstractMap.SimpleEntry<Integer, Book>> archive = new ArrayList<>();
 
     public void sortBy(BookSort sortType) {
         if (sortType == BookSort.AlphabetAscending) {

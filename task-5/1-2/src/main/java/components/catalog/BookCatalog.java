@@ -6,6 +6,7 @@ import components.time.TimeUnits;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
@@ -18,9 +19,9 @@ public class BookCatalog implements ICatalog<Book> {
         this.books = new HashMap<>();
     }
 
-    public ArrayList<Book> getNotSold(BigDecimal amount, TimeUnits timeUnit) {
+    public List<Book> getNotSold(BigDecimal amount, TimeUnits timeUnit) {
         BigDecimal seconds = toSeconds(amount, timeUnit);
-        ArrayList<Book> notSoldBooks = new ArrayList<>();
+        List<Book> notSoldBooks = new ArrayList<>();
 
         for (Map.Entry<Integer, Book> i : books.entrySet()) {
             long currentEpochSec = System.currentTimeMillis() / 1000L;
