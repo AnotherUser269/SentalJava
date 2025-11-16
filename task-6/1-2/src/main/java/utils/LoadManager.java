@@ -78,6 +78,11 @@ public class LoadManager {
 
                 book.setStatus(status);
 
+                if(bookArchive.find(id).isPresent()) {
+                    // Replacing then
+                    bookArchive.remove(id);
+                }
+
                 bookArchive.put(book);
             }
         } catch (IOException e) {
@@ -114,6 +119,11 @@ public class LoadManager {
                 }
 
                 request.setStatus(status);
+
+                if(requestArchive.find(id).isPresent()) {
+                    // Replacing then
+                    requestArchive.remove(id);
+                }
 
                 requestArchive.put(request);
             }
@@ -161,6 +171,11 @@ public class LoadManager {
 
                 order.setStatus(status);
 
+                if(orderArchive.find(id).isPresent()) {
+                    // Replacing then
+                    orderArchive.remove(id);
+                }
+
                 orderArchive.put(order);
             }
         } catch (IOException e) {
@@ -204,6 +219,11 @@ public class LoadManager {
 
                 book.setStatus(status);
 
+                if(bookCatalog.get(id).isPresent()) {
+                    // Replacing then
+                    bookCatalog.remove(id);
+                }
+
                 bookCatalog.put(book);
             }
         } catch (IOException e) {
@@ -212,7 +232,7 @@ public class LoadManager {
     }
 
     public void loadRequestCatalog(RequestCatalog requestCatalog) {
-        Path path = Paths.get(bookCatalogPath);
+        Path path = Paths.get(requestCatalogPath);
         requestCatalog.clearAll();
         if (!Files.exists(path)) return;
 
@@ -240,6 +260,11 @@ public class LoadManager {
                 }
 
                 request.setStatus(status);
+
+                if(requestCatalog.get(id).isPresent()) {
+                    // Replacing then
+                    requestCatalog.remove(id);
+                }
 
                 requestCatalog.put(request);
             }
@@ -286,6 +311,11 @@ public class LoadManager {
                 }
 
                 order.setStatus(status);
+
+                if(orderCatalog.get(id).isPresent()) {
+                    // Replacing then
+                    orderCatalog.remove(id);
+                }
 
                 orderCatalog.put(order);
             }
