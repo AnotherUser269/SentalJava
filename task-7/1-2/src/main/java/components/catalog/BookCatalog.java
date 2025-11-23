@@ -23,6 +23,7 @@ public class BookCatalog implements ICatalog<Book> {
 
             if (amount.compareTo(BigDecimal.ZERO) < 0) {
                 amount = defaultTime;
+                timeUnit = TimeUnits.Months;
             }
         } catch (IOException e) {
             System.err.println("[ERROR] Wrong config, ignoring default value.");
