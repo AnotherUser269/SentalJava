@@ -4,12 +4,16 @@ import components.archive.RequestArchive;
 import components.catalog.RequestCatalog;
 import components.status_enums.RequestStatus;
 import components.core.Request;
+import utils.ConfigLoader;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class RequestManager {
     private final RequestCatalog requestCatalog;
     private final RequestArchive requestArchive;
+
+    ConfigLoader configLoader = new ConfigLoader();
 
     public RequestManager(RequestCatalog requestCatalog, RequestArchive requestArchive) {
         this.requestCatalog = requestCatalog;
@@ -46,6 +50,14 @@ public class RequestManager {
     public Request createRequest(String bookTitle) {
         int requestId = generateId();
         Request newRequest = new Request(requestId, bookTitle);
+
+        try {
+            if (configLoader.getAppConfig().get("autoCompleteRequestAfterAdding").asBoolean()) {
+                newRequest.setStatus(RequestStatus.Closed);
+            }
+        } catch (IOException e) {
+            System.err.println("[ERROR] Wrong config, using default value.");
+        }
         requestCatalog.put(newRequest);
         requestArchive.put(newRequest);
 

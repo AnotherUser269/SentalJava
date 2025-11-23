@@ -3,18 +3,31 @@ package components.catalog;
 import components.status_enums.BookStatus;
 import components.core.Book;
 import components.time.TimeUnits;
+import utils.ConfigLoader;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
 public class BookCatalog implements ICatalog<Book> {
     private final Map<Integer, Book> booksCatalog;
+    ConfigLoader configLoader = new ConfigLoader();
 
     public BookCatalog() {
         this.booksCatalog = new HashMap<>();
     }
 
     public List<Book> getNotSold(BigDecimal amount, TimeUnits timeUnit) {
+        try {
+            BigDecimal defaultTime = new BigDecimal(configLoader.getAppConfig().get("monthsToMarkAsStale").asText());
+
+            if (amount.compareTo(BigDecimal.ZERO) < 0) {
+                amount = defaultTime;
+            }
+        } catch (IOException e) {
+            System.err.println("[ERROR] Wrong config, ignoring default value.");
+        }
+
         BigDecimal seconds = toSeconds(amount, timeUnit);
         List<Book> notSoldBooks = new ArrayList<>();
 
