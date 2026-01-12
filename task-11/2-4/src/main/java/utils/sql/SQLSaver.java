@@ -6,17 +6,23 @@ import components.archive.RequestArchive;
 import components.core.Book;
 import components.core.Order;
 import components.core.Request;
+import utils.DAO.*;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SQLSaver {
     private final Connection connection;
+    private final BookDAO bookDAO;
+    private final OrderDAO orderDAO;
+    private final RequestDAO requestDAO;
 
     public SQLSaver(Connection connection) {
         this.connection = connection;
+        this.bookDAO = new BookDAO(connection);
+        this.orderDAO = new OrderDAO(connection);
+        this.requestDAO = new RequestDAO(connection);
     }
 
     public void save(BookArchive bookArchive, OrderArchive orderArchive, RequestArchive requestArchive) throws SQLException {
@@ -29,51 +35,22 @@ public class SQLSaver {
             createTables();
 
             // Save books
-            String insertBookSQL = "INSERT INTO Books (id, title, author, description, timeStamp, price, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement bookStatement = connection.prepareStatement(insertBookSQL)) {
-                for (Book book : bookArchive.getAll()) {
-                    bookStatement.setInt(1, book.getId());
-                    bookStatement.setString(2, book.getTitle());
-                    bookStatement.setString(3, book.getAuthor());
-                    bookStatement.setString(4, book.getDescription());
-                    bookStatement.setLong(5, book.getTimeStamp());
-                    bookStatement.setBigDecimal(6, book.getPrice());
-                    bookStatement.setString(7, book.getStatus().name());
-                    bookStatement.addBatch();
-                }
-                bookStatement.executeBatch();
+            for (Book book : bookArchive.getAll()) {
+                bookDAO.create(book);
             }
 
             // Save orders
-            String insertOrderSQL = "INSERT INTO Orders (id, bookId, startTime, phoneNumber, deliveryPrice, status, completionTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement orderStatement = connection.prepareStatement(insertOrderSQL)) {
-                for (Order order : orderArchive.getAll()) {
-                    orderStatement.setInt(1, order.getId());
-                    orderStatement.setInt(2, order.getBookId());
-                    orderStatement.setLong(3, order.getStartTime());
-                    orderStatement.setString(4, order.getPhoneNumber());
-                    orderStatement.setBigDecimal(5, order.getDeliveryPrice());
-                    orderStatement.setString(6, order.getStatus().name());
-                    orderStatement.setLong(7, order.getCompletionTime());
-                    orderStatement.addBatch();
-                }
-                orderStatement.executeBatch();
+            for (Order order : orderArchive.getAll()) {
+                orderDAO.create(order);
             }
 
             // Save requests
-            String insertRequestSQL = "INSERT INTO Requests (id, bookTitle, status) VALUES (?, ?, ?)";
-            try (PreparedStatement requestStatement = connection.prepareStatement(insertRequestSQL)) {
-                for (Request request : requestArchive.getAll()) {
-                    requestStatement.setInt(1, request.getId());
-                    requestStatement.setString(2, request.getBookTitle());
-                    requestStatement.setString(3, request.getStatus().name());
-                    requestStatement.addBatch();
-                }
-                requestStatement.executeBatch();
+            for (Request request : requestArchive.getAll()) {
+                requestDAO.create(request);
             }
 
             connection.commit();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             connection.rollback();
             throw new SQLException("Error saving data to the database: " + e.getMessage(), e);
         } finally {
