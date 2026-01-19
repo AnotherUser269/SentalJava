@@ -1,0 +1,23 @@
+{
+  "csv": {
+    "bookArchiveFilePath" : "BookArchive.csv",
+    "requestArchiveFilePath" : "RequestArchive.csv",
+    "orderArchiveFilePath" : "OrderArchive.csv",
+
+    "bookCatalogFilePath" : "BookCatalog.csv",
+    "requestCatalogFilePath" : "RequestCatalog.csv",
+    "orderCatalogFilePath" : "OrderCatalog.csv",
+    "delimiter" : ";"
+  },
+
+  "appLogic": {
+    "monthsToMarkAsStale": 6,
+    "autoCompleteRequestAfterAdding": true
+  },
+
+  "sql": {
+    "url": "jdbc:postgresql://localhost:5432/task11",
+    "username": "postgres",
+    "password": "YOUR_PASSWORD"
+  }
+}
