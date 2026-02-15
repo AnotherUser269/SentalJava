@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="loadBean" class="utils.LoadManager">
+        <constructor-arg value=","/>
+        <constructor-arg value="BookArchive.csv"/>
+        <constructor-arg value="RequestArchive.csv"/>
+        <constructor-arg value="OrderArchive.csv"/>
+        <constructor-arg value="BookCatalog.csv"/>
+        <constructor-arg value="RequestCatalog.csv"/>
+        <constructor-arg value="OrderCatalog.csv"/>
+    </bean>
+
+    <bean id="saveBean" class="utils.SaveManager">
+        <constructor-arg value=","/>
+        <constructor-arg value="BookArchive.csv"/>
+        <constructor-arg value="RequestArchive.csv"/>
+        <constructor-arg value="OrderArchive.csv"/>
+        <constructor-arg value="BookCatalog.csv"/>
+        <constructor-arg value="RequestCatalog.csv"/>
+        <constructor-arg value="OrderCatalog.csv"/>
+    </bean>
+
+</beans>
